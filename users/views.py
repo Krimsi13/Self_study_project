@@ -15,6 +15,12 @@ class UserCreateApiView(CreateAPIView):
         user.save()
 
 
+class UserListApiView(ListAPIView):
+    """Класс для просмотра списка пользователей."""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
 class UserRetrieveApiView(RetrieveAPIView):
     """Класс для получения пользователя."""
     queryset = User.objects.all()

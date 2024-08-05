@@ -19,6 +19,9 @@ class Section(models.Model):
         verbose_name = "Раздел"
         verbose_name_plural = "Раздел"
 
+    def __str__(self):
+        return self.title
+
 
 class Material(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название материала(урока)")
@@ -38,3 +41,6 @@ class Material(models.Model):
     class Meta:
         verbose_name = "Материал"
         verbose_name_plural = "Материалы"
+
+    def __str__(self):
+        return self.title

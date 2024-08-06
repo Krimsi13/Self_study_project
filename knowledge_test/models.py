@@ -27,8 +27,8 @@ class Question(models.Model):
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
 
-    def __str__(self):
-        return self.question_number
+    # def __str__(self):
+    #     return self.question_number
 
 
 class Answer(models.Model):
@@ -42,5 +42,5 @@ class Answer(models.Model):
         verbose_name = "Ответ"
         verbose_name_plural = "Ответы"
 
-    def __str__(self):
-        return self.answer_number
+    # def __str__(self):
+    #     return self.answer_number

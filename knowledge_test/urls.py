@@ -5,7 +5,7 @@ from knowledge_test.views import (TestListApiView, TestRetrieveApiView, TestCrea
                                   TestDestroyApiView, QuestionListApiView, QuestionRetrieveApiView,
                                   QuestionCreateApiView, QuestionUpdateApiView, QuestionDestroyApiView,
                                   AnswerListApiView, AnswerRetrieveApiView, AnswerCreateApiView, AnswerUpdateApiView,
-                                  AnswerDestroyApiView)
+                                  AnswerDestroyApiView, CheckAnswerID, CheckAnswerText)
 
 app_name = KnowledgeTestConfig.name
 
@@ -30,4 +30,7 @@ urlpatterns = [
     path("answers/create/", AnswerCreateApiView.as_view(), name="answers_create"),
     path("answers/<int:pk>/update/", AnswerUpdateApiView.as_view(), name="answers_update"),
     path("answers/<int:pk>/delete/", AnswerDestroyApiView.as_view(), name="answers_delete"),
+
+    path("answers/check/<int:question_pk>/<int:answer_pk>/", CheckAnswerID.as_view(), name="check_answer_id"),
+    path("answers/check/<int:question_pk>/", CheckAnswerText.as_view(), name="check_answer_text"),
 ]

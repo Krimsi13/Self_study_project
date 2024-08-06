@@ -153,3 +153,19 @@ class CheckAnswerText(APIView):
     #     return Response({"message": message})
 
 
+class QuestionListOfTest(APIView):
+    """Get List of Questions by ID Test."""
+    def get(self, request, *args, **kwargs):
+        test_pk = kwargs["test_pk"]
+        questions_list = Question.objects.filter(test=test_pk).values()
+
+        return Response(questions_list)
+
+
+class AnswerListOfQuestion(APIView):
+    """Get List of Answers by ID Question."""
+    def get(self, request, *args, **kwargs):
+        question_pk = kwargs["question_pk"]
+        answers_list = Answer.objects.filter(question=question_pk).values()
+
+        return Response(answers_list)

@@ -1,105 +1,124 @@
 from django.shortcuts import render
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from knowledge_test.models import Test, Question, Answer
 
 from knowledge_test.serializers import TestSerializer, QuestionSerializer, AnswerSerializer
+from users.permissions import IsOwnerSection, IsOwner
 
 
 class TestCreateApiView(CreateAPIView):
     """Create a new Test."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
+    permission_classes = (IsAdminUser, IsOwnerSection)
 
 
 class TestListApiView(ListAPIView):
     """List of Tests."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class TestRetrieveApiView(RetrieveAPIView):
     """Get one Test."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class TestUpdateApiView(UpdateAPIView):
     """Update Test."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
+    permission_classes = (IsAdminUser, IsOwner)
 
 
 class TestDestroyApiView(DestroyAPIView):
     """Delete Test."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
+    permission_classes = (IsAdminUser, IsOwner)
 
 
 class QuestionCreateApiView(CreateAPIView):
     """Create a new Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = (IsAdminUser, IsOwnerSection)
 
 
 class QuestionListApiView(ListAPIView):
     """List of Questions."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class QuestionRetrieveApiView(RetrieveAPIView):
     """Get one Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class QuestionUpdateApiView(UpdateAPIView):
     """Update Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = (IsAdminUser, IsOwner)
 
 
 class QuestionDestroyApiView(DestroyAPIView):
     """Delete Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = (IsAdminUser, IsOwner)
 
 
 class AnswerCreateApiView(CreateAPIView):
     """Create a new Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+    permission_classes = (IsAdminUser, IsOwnerSection)
 
 
 class AnswerListApiView(ListAPIView):
     """List of Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class AnswerRetrieveApiView(RetrieveAPIView):
     """Get one Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class AnswerUpdateApiView(UpdateAPIView):
     """Update Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+    permission_classes = (IsAdminUser, IsOwner)
 
 
 class AnswerDestroyApiView(DestroyAPIView):
     """Delete Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+    permission_classes = (IsAdminUser, IsOwner)
 
 
 class CheckAnswerID(APIView):
     """Check answer by ID."""
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request, *args, **kwargs):
         question_pk = kwargs["question_pk"]
         answer_pk = kwargs["answer_pk"]
@@ -120,6 +139,8 @@ class CheckAnswerID(APIView):
 
 class CheckAnswerText(APIView):
     """Check answer by Text."""
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request, *args, **kwargs):
         question_pk = kwargs["question_pk"]
         answer_text = request.data.get('answer_text').lower()
@@ -155,6 +176,8 @@ class CheckAnswerText(APIView):
 
 class QuestionListOfTest(APIView):
     """Get List of Questions by ID Test."""
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, *args, **kwargs):
         test_pk = kwargs["test_pk"]
         questions_list = Question.objects.filter(test=test_pk).values()
@@ -164,6 +187,8 @@ class QuestionListOfTest(APIView):
 
 class AnswerListOfQuestion(APIView):
     """Get List of Answers by ID Question."""
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, *args, **kwargs):
         question_pk = kwargs["question_pk"]
         answers_list = Answer.objects.filter(question=question_pk).values()

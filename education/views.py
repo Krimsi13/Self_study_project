@@ -7,7 +7,7 @@ from education.models import Section, Material
 from rest_framework.viewsets import ModelViewSet
 
 from education.serializers import SectionSerializer, MaterialSerializer
-from users.permissions import IsOwnerSection, IsOwner
+from users.permissions import IsOwnerSection, IsOwner, IsTeacher
 
 
 class SectionViewSet(ModelViewSet):
@@ -17,7 +17,7 @@ class SectionViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'create':
-            self.permission_classes = (IsAdminUser, IsOwnerSection)
+            self.permission_classes = (IsAdminUser, IsTeacher)
         elif self.action in ['retrieve', 'list']:
             self.permission_classes = (IsAuthenticated,)
         elif self.action == 'update':

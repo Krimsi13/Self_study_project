@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from knowledge_test.models import Test, Question, Answer
 
 from knowledge_test.serializers import TestSerializer, QuestionSerializer, AnswerSerializer
-from users.permissions import IsOwnerSection, IsOwner
+from users.permissions import IsOwnerSection, IsOwner, IsOwnerTest, IsOwnerQuestion
 
 
 class TestCreateApiView(CreateAPIView):
@@ -49,7 +49,7 @@ class QuestionCreateApiView(CreateAPIView):
     """Create a new Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (IsAdminUser, IsOwnerSection)
+    permission_classes = (IsAdminUser, IsOwnerTest)
 
 
 class QuestionListApiView(ListAPIView):
@@ -84,7 +84,7 @@ class AnswerCreateApiView(CreateAPIView):
     """Create a new Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
-    permission_classes = (IsAdminUser, IsOwnerSection)
+    permission_classes = (IsAdminUser, IsOwnerQuestion)
 
 
 class AnswerListApiView(ListAPIView):

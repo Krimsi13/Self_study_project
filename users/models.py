@@ -8,6 +8,7 @@ class User(AbstractUser):
     username = None
 
     email = models.EmailField(unique=True, verbose_name="Email", max_length=255)
+    is_teacher = models.BooleanField(default=False, verbose_name="Признак Преподавателя", **NULLABLE)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -169,7 +169,7 @@ class MaterialTestCase(APITestCase):
         )
 
     def test_delete_material(self):
-        """Test deleting a material"""
+        """Test deleting a material."""
 
         material = Material.objects.create(
             title="before delete test",

@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from education.models import Section
-from knowledge_test.models import Test, Question
+from knowledge_test.models import Test, Question, Answer
 from users.models import User
 
 
@@ -399,4 +399,205 @@ class AnswerTestCase(APITestCase):
             test=self.testing_test
         )
 
-    
+    def test_create_answer(self):
+        """Test create Answer."""
+
+        data = {
+            "answer_variant": "A",
+            "answer_text": "test_text",
+            "is_correct": True
+        }
+
+        response = self.client.post(
+            "/tests/answers/create/",
+            data=data
+        )
+
+        # print(response.json())
+
+        out_data = response.json()
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED
+        )
+
+        self.assertEqual(
+            out_data.get("answer_variant"),
+            "A")
+
+        self.assertEqual(
+            out_data.get("answer_text"),
+            "test_text")
+
+        self.assertEqual(
+            out_data.get("is_correct"),
+            True)
+
+        self.assertTrue(
+            Answer.objects.all().exists()
+        )
+
+    def test_list_answers(self):
+        """Test output list of answers."""
+
+        Answer.objects.create(
+            answer_variant="A",
+            answer_text="test_text",
+            is_correct=True,
+            question=self.question_test
+        )
+
+        response = self.client.get(
+            "/tests/answers/"
+        )
+
+        # print(response.json())
+
+        out_data = response.json()
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
+
+        self.assertEqual(
+            len(response.json()),
+            1
+        )
+
+        self.assertEqual(
+            out_data[0].get("answer_variant"),
+            "A")
+
+        self.assertEqual(
+            out_data[0].get("answer_text"),
+            "test_text")
+
+        self.assertEqual(
+            out_data[0].get("is_correct"),
+            True)
+
+        self.assertEqual(
+            out_data[0].get("question"),
+            self.question_test.pk)
+
+        self.assertTrue(
+            Answer.objects.all().exists()
+        )
+
+    def test_retrieve_answer(self):
+        """Test output one answer."""
+
+        answer = Answer.objects.create(
+            answer_variant="A",
+            answer_text="test_text",
+            is_correct=True,
+            question=self.question_test
+        )
+
+        response = self.client.get(
+            f"/tests/answers/{answer.id}/"
+        )
+
+        # print(response.json())
+
+        out_data = response.json()
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
+
+        self.assertEqual(
+            out_data.get("answer_variant"),
+            "A")
+
+        self.assertEqual(
+            out_data.get("answer_text"),
+            "test_text")
+
+        self.assertEqual(
+            out_data.get("is_correct"),
+            True)
+
+        self.assertEqual(
+            out_data.get("question"),
+            self.question_test.pk)
+
+        self.assertTrue(
+            Answer.objects.all().exists()
+        )
+
+    def test_update_answer(self):
+        """Test update answer."""
+
+        answer = Answer.objects.create(
+            answer_variant="A",
+            answer_text="before update test",
+            is_correct=True,
+            question=self.question_test
+        )
+
+        data = {
+            "answer_variant": "B",
+            "answer_text": "after update test",
+            "is_correct": False
+        }
+
+        response = self.client.patch(
+            f"/tests/answers/{answer.id}/update/",
+            data
+        )
+
+        # print(response.json())
+
+        out_data = response.json()
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
+
+        self.assertEqual(
+            out_data.get("answer_variant"),
+            "B")
+
+        self.assertEqual(
+            out_data.get("answer_text"),
+            "after update test")
+
+        self.assertEqual(
+            out_data.get("is_correct"),
+            False)
+
+        self.assertEqual(
+            out_data.get("question"),
+            self.question_test.pk)
+
+        self.assertTrue(
+            Answer.objects.all().exists()
+        )
+
+    def test_delete_answer(self):
+        """Test deleting a answer."""
+
+        answer = Answer.objects.create(
+            answer_variant="A",
+            answer_text="before delete test",
+            is_correct=True,
+            question=self.question_test
+        )
+
+        response = self.client.delete(
+            f"/tests/answers/{answer.id}/delete/"
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_204_NO_CONTENT
+        )
+
+        self.assertFalse(
+            Answer.objects.all().exists()
+        )

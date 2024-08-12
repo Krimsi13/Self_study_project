@@ -20,7 +20,7 @@ class Test(models.Model):
 
 class Question(models.Model):
     question_number = models.CharField(max_length=5, verbose_name="Номер вопроса", **NULLABLE)
-    question_text = models.TextField(verbose_name="Текст вопроса")
+    question_text = models.CharField(max_length=600, verbose_name="Текст вопроса")
     test = models.ForeignKey(Test, on_delete=models.CASCADE, verbose_name="Тест", related_name="questions", **NULLABLE)
 
     class Meta:

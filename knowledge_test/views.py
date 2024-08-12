@@ -49,7 +49,7 @@ class QuestionCreateApiView(CreateAPIView):
     """Create a new Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (IsAdminUser | IsOwnerTest)
+    permission_classes = (IsAdminUser | IsOwnerTest,)
 
 
 class QuestionListApiView(ListAPIView):

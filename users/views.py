@@ -1,13 +1,13 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 
 from users.models import User
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, UserCreateSerializer
 
 
 class UserCreateApiView(CreateAPIView):
     """Регистрация пользователя."""
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserCreateSerializer
 
     def perform_create(self, serializer):
         user = serializer.save(is_active=True)

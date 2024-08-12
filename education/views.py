@@ -17,13 +17,13 @@ class SectionViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'create':
-            self.permission_classes = (IsAdminUser, IsTeacher)
+            self.permission_classes = (IsAdminUser | IsTeacher,)
         elif self.action in ['retrieve', 'list']:
             self.permission_classes = (IsAuthenticated,)
         elif self.action == 'update':
-            self.permission_classes = (IsAdminUser, IsOwner)
+            self.permission_classes = (IsAdminUser | IsOwner,)
         elif self.action == 'destroy':
-            self.permission_classes = (IsAdminUser, IsOwner)
+            self.permission_classes = (IsAdminUser | IsOwner,)
         return super().get_permissions()
 
     def perform_create(self, serializer):
@@ -36,7 +36,7 @@ class MaterialCreateApiView(CreateAPIView):
     """Create a new Material"""
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
-    permission_classes = (IsAdminUser, IsOwnerSection)
+    permission_classes = (IsAdminUser | IsOwnerSection,)
 
     def perform_create(self, serializer):
         material = serializer.save()
@@ -62,11 +62,11 @@ class MaterialUpdateApiView(UpdateAPIView):
     """Update Material"""
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
-    permission_classes = (IsAdminUser, IsOwner)
+    permission_classes = (IsAdminUser | IsOwner,)
 
 
 class MaterialDestroyApiView(DestroyAPIView):
     """Delete Material"""
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
-    permission_classes = (IsAdminUser, IsOwner)
+    permission_classes = (IsAdminUser | IsOwner,)

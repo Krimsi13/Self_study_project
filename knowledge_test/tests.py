@@ -373,3 +373,30 @@ class QuestionTestCase(APITestCase):
         self.assertFalse(
             Question.objects.all().exists()
         )
+
+
+class AnswerTestCase(APITestCase):
+    """Testing Answers."""
+
+    def setUp(self) -> None:
+        self.user = User.objects.create(email="test@test.ru", is_staff=True)
+        self.client.force_authenticate(user=self.user)
+
+        self.section_test = Section.objects.create(
+            title="title_test",
+            description="description_test",
+            owner=self.user
+        )
+
+        self.testing_test = Test.objects.create(
+            title="title_test",
+            section=self.section_test
+        )
+
+        self.question_test = Question.objects.create(
+            question_number="A",
+            question_text="test_text",
+            test=self.testing_test
+        )
+
+    

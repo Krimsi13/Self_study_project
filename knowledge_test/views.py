@@ -14,7 +14,7 @@ class TestCreateApiView(CreateAPIView):
     """Create a new Test."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
-    permission_classes = (IsAdminUser, IsOwnerSection)
+    permission_classes = (IsAdminUser | IsOwnerSection,)
 
 
 class TestListApiView(ListAPIView):
@@ -35,21 +35,21 @@ class TestUpdateApiView(UpdateAPIView):
     """Update Test."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
-    permission_classes = (IsAdminUser, IsOwnerSection)
+    permission_classes = (IsAdminUser | IsOwnerSection,)
 
 
 class TestDestroyApiView(DestroyAPIView):
     """Delete Test."""
     queryset = Test.objects.all()
     serializer_class = TestSerializer
-    permission_classes = (IsAdminUser, IsOwnerSection)
+    permission_classes = (IsAdminUser | IsOwnerSection,)
 
 
 class QuestionCreateApiView(CreateAPIView):
     """Create a new Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (IsAdminUser, IsOwnerTest)
+    permission_classes = (IsAdminUser | IsOwnerTest)
 
 
 class QuestionListApiView(ListAPIView):
@@ -70,21 +70,21 @@ class QuestionUpdateApiView(UpdateAPIView):
     """Update Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (IsAdminUser, IsOwnerTest)
+    permission_classes = (IsAdminUser | IsOwnerTest,)
 
 
 class QuestionDestroyApiView(DestroyAPIView):
     """Delete Question."""
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (IsAdminUser, IsOwnerTest)
+    permission_classes = (IsAdminUser | IsOwnerTest,)
 
 
 class AnswerCreateApiView(CreateAPIView):
     """Create a new Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
-    permission_classes = (IsAdminUser, IsOwnerQuestion)
+    permission_classes = (IsAdminUser | IsOwnerQuestion,)
 
 
 class AnswerListApiView(ListAPIView):
@@ -105,14 +105,14 @@ class AnswerUpdateApiView(UpdateAPIView):
     """Update Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
-    permission_classes = (IsAdminUser, IsOwner)
+    permission_classes = (IsAdminUser | IsOwnerQuestion,)
 
 
 class AnswerDestroyApiView(DestroyAPIView):
     """Delete Answer."""
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
-    permission_classes = (IsAdminUser, IsOwner)
+    permission_classes = (IsAdminUser | IsOwnerQuestion,)
 
 
 class CheckAnswerID(APIView):
